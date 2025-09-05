@@ -11,7 +11,7 @@ import {
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, database } from '../config/firebase.js';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen() {
   const [userData, setUserData] = useState(null);
@@ -20,32 +20,41 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const currentUser = auth.currentUser;
 
-  // Cargar datos del usuario desde Firestore
-  useEffect(() => {
-    const loadUserData = async () => {
-      if (currentUser) {
-        try {
-          const userDoc = await getDoc(doc(database, 'users', currentUser.uid));
-          if (userDoc.exists()) {
-            setUserData(userDoc.data());
-          } else {
-            // Si no hay datos en Firestore, usar los datos básicos del Auth
-            setUserData({
-              name: currentUser.displayName || 'Usuario',
-              email: currentUser.email
-            });
-          }
-        } catch (error) {
-          console.error('Error al cargar datos del usuario:', error);
-          Alert.alert('Error', 'No se pudieron cargar los datos del usuario');
-        } finally {
-          setIsLoading(false);
+  // Función para cargar datos del usuario desde Firestore
+  const loadUserData = async () => {
+    if (currentUser) {
+      try {
+        setIsLoading(true);
+        const userDoc = await getDoc(doc(database, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
+        } else {
+          // Si no hay datos en Firestore, usar los datos básicos del Auth
+          setUserData({
+            name: currentUser.displayName || 'Usuario',
+            email: currentUser.email
+          });
         }
+      } catch (error) {
+        console.error('Error al cargar datos del usuario:', error);
+        Alert.alert('Error', 'No se pudieron cargar los datos del usuario');
+      } finally {
+        setIsLoading(false);
       }
-    };
+    }
+  };
 
+  // useEffect inicial para cargar los datos
+  useEffect(() => {
     loadUserData();
-  }, [currentUser]); // Corregido: se movió el corchete de cierre
+  }, [currentUser]);
+
+  // useFocusEffect para recargar los datos cada vez que la pantalla recibe foco
+  useFocusEffect(
+    React.useCallback(() => {
+      loadUserData();
+    }, [currentUser])
+  );
 
   // Función para cerrar sesión
   const handleLogout = async () => {
@@ -74,6 +83,11 @@ export default function HomeScreen() {
     );
   };
 
+  // Función para refrescar manualmente los datos
+  const handleRefresh = () => {
+    loadUserData();
+  };
+
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -94,6 +108,14 @@ export default function HomeScreen() {
         <Text style={styles.userEmail}>
           {userData?.email || currentUser?.email}
         </Text>
+        
+        {/* Botón de refrescar */}
+        <TouchableOpacity
+          style={styles.refreshButton}
+          onPress={handleRefresh}
+        >
+          <Text style={styles.refreshButtonText}>🔄 Actualizar</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Información del usuario */}
@@ -193,6 +215,20 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: 16,
     color: '#666',
+    marginBottom: 10,
+  },
+  refreshButton: {
+    backgroundColor: '#f0f8ff',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#007AFF',
+  },
+  refreshButtonText: {
+    color: '#007AFF',
+    fontSize: 14,
+    fontWeight: '500',
   },
   infoCard: {
     backgroundColor: 'white',
