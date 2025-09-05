@@ -10,7 +10,7 @@ Integrante 1:
 **Grupo/Sección:** A1 
 
 Integrante 2:
-**Nombre del estudiante: Ragael Alberto Vargas Landaverde
+**Nombre del estudiante: Rafael Alberto Vargas Landaverde
 **Carnet:** 20230402
 **Grupo/Sección:** A1 
 ---
