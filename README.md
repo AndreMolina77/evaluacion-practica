@@ -4,16 +4,19 @@
 ---
 
 ### 📋 Información del Estudiante
-
+Integrante 1:
 **Nombre del estudiante: Aldo Andrè Molina Maldonado 
 **Carnet:** 20230331  
 **Grupo/Sección:** A1 
-
+Integrante 2:
+**Nombre del estudiante: Ragael Alberto Vargas Landaverde
+**Carnet:** 20230402
+**Grupo/Sección:** A1 
 ---
 
 ### 🎥 Video Demostrativo
 
-**Enlace del video:** [Insertar enlace del video demostrativo]
+**Enlace del video:** https://drive.google.com/file/d/1r6sFTCPxtL66o4BQh6e1ThcsUd5-G8SP/view?usp=sharing
 
 > **Nota:** El video demuestra la funcionalidad completa de la aplicación, incluyendo la verificación del almacenamiento de datos en Firebase.
 
