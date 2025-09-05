@@ -4,15 +4,12 @@
 ---
 
 ### 📋 Información del Estudiante
-Integrante 1:
-**Nombre del estudiante: Aldo Andrè Molina Maldonado 
+**Integrante 1: Aldo André Molina Maldonado 
 **Carnet:** 20230331  
-**Grupo/Sección:** A1 
-
-Integrante 2:
-**Nombre del estudiante: Rafael Alberto Vargas Landaverde
+**Integrante 2: Rafael Alberto Vargas Landaverde
 **Carnet:** 20230402
 **Grupo/Sección:** A1 
+
 ---
 
 ### 🎥 Video Demostrativo
